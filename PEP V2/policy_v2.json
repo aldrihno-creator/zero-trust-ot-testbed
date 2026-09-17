@@ -1,0 +1,18 @@
+{
+  "listen_port": 5020,
+  "resource_host": "conpot",
+  "resource_port": 5020,
+  "rules": [
+    {
+      "subject": "openplc",
+      "resource": "conpot",
+      "allowed_function_codes": [3, 4],
+      "description": "OpenPLC is authorised for read-only telemetry (Read Holding/Input Registers). Write commands are not permitted, blocking command-injection-style function codes (5, 6, 15, 16)."
+    }
+  ],
+  "baseline": {
+    "learning_samples": 5,
+    "tolerance_absolute": 50,
+    "description": "After 5 reads of a given register, the mean observed value is frozen as that register's baseline. Subsequent reads deviating by more than 50 from the baseline are treated as a possible false data injection and blocked, with a Modbus exception returned to the client instead of the anomalous value."
+  }
+}
